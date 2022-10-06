@@ -1,5 +1,5 @@
-from django.shortcuts import Http404, HttpResponseRedirect
-from .models import Article
+from django.http import Http404, HttpResponseRedirect
+from .models import Article, Comment
 from django.shortcuts import render
 from django.urls import reverse
 
@@ -25,7 +25,7 @@ def leave_comment(request, article_id):
         a = Article.objects.get(id=article_id)
     except:
         raise Http404("Статья не найдена!")
-    return render(request, 'articles/detail.html', {'article': a})
+    # return render(request, 'articles/detail', {'article': a})
 
     a.comment_set.create(author_name=request.POST['name'], comment_text=request.POST['text'])
-    return HpptResponseRedirect(reverse('articles:detail', args=(a.id,)))
+    return HttpResponseRedirect(reverse('articles:detail', args=(a.id,)))
